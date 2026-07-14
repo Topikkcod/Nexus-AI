@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus AI - Advanced Conversational AI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <span>Nexus AI</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <button class="nav-btn active" data-tab="chat">
+                    <i class="fas fa-comments"></i>
+                    <span>Chat</span>
+                </button>
+                <button class="nav-btn" data-tab="analytics">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Analytics</span>
+                </button>
+                <button class="nav-btn" data-tab="automation">
+                    <i class="fas fa-cogs"></i>
+                    <span>Automation</span>
+                </button>
+                <button class="nav-btn" data-tab="settings">
+                    <i class="fas fa-sliders-h"></i>
+                    <span>Settings</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="btn-clear" id="clearChatBtn">
+                    <i class="fas fa-trash"></i>
+                    <span>Clear Chat</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Chat Tab -->
+            <div class="tab-content active" id="chat-tab">
+                <div class="chat-header">
+                    <h2>Nexus AI Chat</h2>
+                    <p>Conversational AI dengan Voice Recognition & Auto Response</p>
+                </div>
+
+                <div class="chat-container">
+                    <div class="messages" id="messagesContainer">
+                        <div class="message bot-message">
+                            <div class="message-avatar">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <div class="message-content">
+                                <p>Halo! Saya Nexus AI. Siap membantu Anda! 👋</p>
+                                <small>Gunakan voice recognition atau ketik pesan untuk mulai.</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-section">
+                    <div class="voice-controls">
+                        <button class="btn-voice" id="micBtn" title="Klik untuk mulai recording">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                        <button class="btn-speaker" id="speakerBtn" title="Text-to-Speech">
+                            <i class="fas fa-volume-up"></i>
+                        </button>
+                    </div>
+
+                    <input type="text" id="userInput" placeholder="Ketik pesan atau gunakan voice..." class="input-field">
+
+                    <button class="btn-send" id="sendBtn">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+
+                <div class="voice-status" id="voiceStatus" style="display: none;">
+                    <span id="voiceStatusText">🎤 Recording...</span>
+                </div>
+            </div>
+
+            <!-- Analytics Tab -->
+            <div class="tab-content" id="analytics-tab">
+                <div class="analytics-header">
+                    <h2>Real-Time Analytics Dashboard</h2>
+                    <p>Analisis data dan statistik percakapan</p>
+                </div>
+
+                <div class="analytics-container">
+                    <!-- Stats Cards -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3>Total Messages</h3>
+                                <p class="stat-value" id="totalMessages">0</p>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3>User Messages</h3>
+                                <p class="stat-value" id="userMessages">0</p>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3>Bot Responses</h3>
+                                <p class="stat-value" id="botMessages">0</p>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3>Avg Response Time</h3>
+                                <p class="stat-value" id="avgResponseTime">0ms</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts Section -->
+                    <div class="charts-section">
+                        <div class="chart-container">
+                            <h3>Message Distribution</h3>
+                            <canvas id="messageChart"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <h3>Response Time Trend</h3>
+                            <canvas id="responseTimeChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Data Upload Section -->
+                    <div class="upload-section">
+                        <h3>Upload & Analyze Data</h3>
+                        <div class="upload-area" id="uploadArea">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Drag & drop atau klik untuk upload CSV/JSON</p>
+                            <input type="file" id="fileInput" accept=".csv,.json" style="display: none;">
+                        </div>
+                        <div id="fileAnalysis" style="margin-top: 20px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Automation Tab -->
+            <div class="tab-content" id="automation-tab">
+                <div class="automation-header">
+                    <h2>Automation & Auto Response</h2>
+                    <p>Setup otomasi respons untuk meningkatkan efisiensi</p>
+                </div>
+
+                <div class="automation-container">
+                    <!-- Add New Rule -->
+                    <div class="automation-form">
+                        <h3>Buat Rule Auto Response</h3>
+                        <div class="form-group">
+                            <label>Trigger Keyword</label>
+                            <input type="text" id="triggerKeyword" placeholder="Misal: halo, help, etc">
+                        </div>
+                        <div class="form-group">
+                            <label>Response</label>
+                            <textarea id="triggerResponse" placeholder="Masukkan respons otomatis"></textarea>
+                        </div>
+                        <button class="btn-primary" id="addRuleBtn">
+                            <i class="fas fa-plus"></i> Tambah Rule
+                        </button>
+                    </div>
+
+                    <!-- Active Rules -->
+                    <div class="automation-rules">
+                        <h3>Active Rules</h3>
+                        <div id="rulesList" class="rules-list">
+                            <p class="empty-state">Belum ada rule. Buat rule baru di atas!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div class="tab-content" id="settings-tab">
+                <div class="settings-header">
+                    <h2>Settings</h2>
+                    <p>Pengaturan Nexus AI</p>
+                </div>
+
+                <div class="settings-container">
+                    <div class="settings-group">
+                        <h3>General Settings</h3>
+                        
+                        <div class="setting-item">
+                            <label for="darkModeToggle">
+                                <span>Dark Mode</span>
+                                <input type="checkbox" id="darkModeToggle" checked>
+                                <span class="toggle"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-item">
+                            <label for="soundToggle">
+                                <span>Enable Notifications Sound</span>
+                                <input type="checkbox" id="soundToggle" checked>
+                                <span class="toggle"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-item">
+                            <label for="autoResponseToggle">
+                                <span>Enable Auto Response</span>
+                                <input type="checkbox" id="autoResponseToggle" checked>
+                                <span class="toggle"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>Voice Settings</h3>
+                        
+                        <div class="setting-item">
+                            <label for="voiceLanguage">Language</label>
+                            <select id="voiceLanguage">
+                                <option value="id-ID">Indonesian</option>
+                                <option value="en-US">English</option>
+                            </select>
+                        </div>
+
+                        <div class="setting-item">
+                            <label for="voiceRate">Voice Speed</label>
+                            <input type="range" id="voiceRate" min="0.5" max="2" step="0.1" value="1">
+                            <span id="voiceRateValue">1x</span>
+                        </div>
+                    </div>
+
+                    <div class="settings-group">
+                        <h3>About</h3>
+                        <p><strong>Nexus AI v1.0</strong></p>
+                        <p>Advanced Conversational AI dengan Voice Recognition, Real-time Analytics, dan Automation Features.</p>
+                        <p><small>© 2026 Nexus AI. Semua hak dilindungi.</small></p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Loading Spinner -->
+    <div class="loading-spinner" id="loadingSpinner">
+        <div class="spinner"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
